@@ -19,5 +19,6 @@ int main() {
 	sort(v.begin(),v.end());
 	for(int i=0; i<n;i++)
 		printf("%d\n",v[i]);
+	//히히 신난다
   return 0;
 }
