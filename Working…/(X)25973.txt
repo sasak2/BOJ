@@ -1,0 +1,49 @@
+#include <iostream>
+#include <vector>
+
+//초콜릿 피라미드 25973
+using namespace std;
+
+int T;
+vector<int> R;
+vector<int> C;
+
+int r,c;
+
+int main() {
+	freopen("input.txt", "rt", stdin);
+	scanf("%d",&T);
+	for(int i=0; i<T; i++) {
+		scanf("%d %d",&r,&c);
+		R.push_back(r);
+		C.push_back(c);
+	}
+
+	for(int i=0; i<T; i++) {
+		int x=R[i];
+		int y=C[i];
+		if(y>x) {
+			x=y;
+			y=R[i];
+		}
+
+
+		   if (y == 1) 
+        printf("%d %d\n",x, x-1);
+
+    else 
+        if(y == x ){
+            answer.append(((y*(y+1)*(2*y+1))/6)*2 - y*y)
+            answer.append(((y*(y+1)*(2*y+1))/6)*2 - y*y - y)
+			}
+        else {
+            answer.append(((y*(y+1)*(2*y+1))/6)*2 - y*y + (y*y)*(x-y))
+            answer.append(((y*(y+1)*(2*y+1))/6)*2 - y*y - y + (y*y)*(x-y))
+				}
+	}
+
+	
+  
+
+  return 0;
+}

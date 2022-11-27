@@ -1,0 +1,134 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+
+int check[22][22];
+int map[22][22];
+int n;
+int x,y,s=2,g=0;
+// x y 사이즈 얼마나 먹어야 커지는지 사이즈
+int t=0;
+
+struct mulgogi {
+    int x,y,size;
+}temp;
+vector <mulgogi> fish;
+
+struct st{
+    int x,y,depth;
+}tempst;
+
+int dx[4]={1,0,-1,0};
+int dy[4]={0,1,0,-1};
+void print(void) {
+    for(int i=0;i<n;i++){
+        for(int k= 0;k<n;k++)
+            printf("%d ", map[i][k]);
+        printf("\n");}
+    printf("time : %d size = %d grow = %d\n\n",t,s,g);
+        
+}
+int bfs(int gx,int gy) {
+    queue<st> q;
+
+    tempst.x=x;
+    tempst.y=y;
+    tempst.depth=0;
+    q.push(tempst);
+    for(int i=0;i<n;i++)
+        for(int k=0;k<n;k++)
+            check[i][k]=0;
+    while(1) {
+    if(q.empty())
+        return 10000;
+    int fx=q.front().x;
+    int fy=q.front().y;
+    int fd=q.front().depth;
+    q.pop();
+        if(check[fx][fy]==-1)
+            continue;
+        check[fx][fy]=-1;
+//printf("%d %d %d\n",fx,fy,fd);
+    if(fd==n*(n+1))
+         return 10000;
+    if(fx==gx&&fy==gy) 
+            return fd;
+    for(int i=0; i<4; i++) {
+     // printf("%d",i);
+         if(fx+dx[i]>=0&&fy+dy[i]>=0&&fx+dx[i]<n&&fy+dy[i]<n) {
+            if(map[fx+dx[i]][fy+dy[i]]<=s) {
+             //   printf("ww");
+            tempst.x=fx+dx[i];
+            tempst.y=fy+dy[i];
+            tempst.depth= fd+1;
+            q.push(tempst);}
+            }
+        }
+        
+        
+    }  
+    
+    
+    return 10000;
+}
+
+int main() {
+    freopen("input.txt","rt",stdin);
+
+    scanf("%d",&n);
+
+    for(int i=0; i<n; i++)
+        for(int k=0; k<n; k++) {
+            scanf("%d",&map[i][k]);
+            if(map[i][k]!=0) {
+                if(map[i][k]==9) {
+                    x=i;
+                    y=k;
+                } else {
+                    temp.x=i;
+                    temp.y=k;
+                    temp.size=map[i][k];
+                    fish.push_back(temp);
+                }
+            }
+        }
+
+    while(1) {
+        int min=10000;
+        int mini; //min_i
+        // 물고기한테 가는데 얼마나 걸리냐? 방법없으면 10000임
+        int tempmin;
+        int fishcount=fish.size();
+        for(int i=0; i<fishcount;i++) {
+            if(fish[i].size>= s)
+                continue;
+            tempmin=bfs(fish[i].x,fish[i].y);
+            
+            if(tempmin< min) {
+                min=tempmin;
+                mini=i;
+            }
+        }
+        if(min==10000) {
+            break;
+        }
+        t+=min;
+        map[x][y]=0;
+        x=fish[mini].x;
+        y=fish[mini].y;
+        map[x][y]=9;
+       // printf("%d %d %d\n",x,y,min);
+        fish.erase(fish.begin()+mini);
+        g++;
+        if(s==g) {
+            s++;
+            g=0;
+        }
+        print();
+    }
+
+    printf("%d",t);
+    
+    return 0;
+}

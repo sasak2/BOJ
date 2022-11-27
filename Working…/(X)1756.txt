@@ -1,0 +1,60 @@
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+//1756 핏짜 꿉끼
+
+int d,n;//깊이수 피자수
+
+vector<int> dd;
+vector<int> nn;
+
+int temp;
+
+int main() {
+    freopen("input.txt","rt",stdin);
+
+    scanf("%d %d",&d,&n);
+
+    for(int i=0; i<d; i++) {
+        scanf("%d",&temp);
+        dd.push_back(temp);
+    }
+    
+    for(int i=0; i<n; i++) {
+        scanf("%d",&temp);
+        nn.push_back(temp);
+    }
+
+    int top=d;
+
+    for(int i=0; i<n; i++) {
+        if(i!=0)
+            if(nn[i]<=nn[i-1]) {
+                top--;
+                continue;
+            }
+        int df=0;
+        if(top==0) {
+            printf("0");
+            return 0;
+        }
+        for(int k=0; k<top; k++) {
+            if(nn[i]>dd[k]) {
+                df=1;
+                top=k;
+                printf("%d가%d번째 너비%d에있다\n",nn[i],k,dd[k]);
+                break;
+            }
+            
+        }
+        if(df==0) {
+            top--;
+        } 
+    }
+
+    printf("%d",top);
+ 
+    return 0;
+}

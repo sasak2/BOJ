@@ -1,0 +1,97 @@
+#include <iostream>
+#include <string.h>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+int n, m, kk;//kk랑 포문 k랑 헷갈릴거 같아서 kk로 둠
+int A[12][12];//양분 저장
+int xx[]={0,1,1,1,0,-1,-1,-1};
+int yy[]={1,1,0,-1,-1,-1,0,1};
+
+struct tree{
+int food=5;//양분
+int dead=0;//양분이 될 죽은나무
+vector<int> age;//한 칸에 나무들 넣는거
+}temp;//temp 안쓰는데 걍 넣어둠
+tree arr[13][13];
+
+void spring() {//봄
+    for(int i=1; i<=n; i++) {
+        for(int k=1;k<=n;k++) {
+            if(arr[i][k].age.empty())//나므 없으면 스킵
+                continue;
+            sort(arr[i][k].age.begin(),arr[i][k].age.end());//정렬을 해
+            int vsize = arr[i][k].age.size();
+            for(int j=0; j<vsize;j++) {//작은거부터 차례로
+                if(arr[i][k].age[j]>arr[i][k].food) { 
+                    arr[i][k].dead+=arr[i][k].age[j]/2;
+                    arr[i][k].age.erase(arr[i][k].age.begin()+j);
+                    j--;
+                    vsize--;//밥을 못먹으면 뒤짐+양분이 된다
+                } 
+                else { 
+                    arr[i][k].food -= arr[i][k].age[j];
+                    arr[i][k].age[j]++;//밥을 먹으면 성장해
+                }
+            }
+        }
+    }   
+}
+
+void summer() {
+for(int i=1; i<=n; i++) 
+        for(int k=1;k<=n;k++) {
+            arr[i][k].food+=arr[i][k].dead;
+            arr[i][k].dead=0;//썩은 나무값 양분에 추가
+        }     
+}
+
+void fall() {
+    for(int i=1; i<=n; i++) 
+        for(int k=1;k<=n;k++) {   
+            int vsize=arr[i][k].age.size();
+            for(int l=0;l<vsize; l++)
+                if(arr[i][k].age[l]%5==0)//5배수면 번식해
+                    for(int j=0;j<8;j++) 
+                        arr[i+xx[j]][k+yy[j]].age.push_back(1);
+            }
+}
+
+void winter() {//밥을 주는거임
+ for(int i=1; i<=n; i++) 
+        for(int k=1;k<=n;k++) 
+            arr[i][k].food += A[i][k];  
+}
+
+int main() {
+    int a,b,c;
+    int sum=0;
+
+    freopen("input.txt","rt",stdin);
+
+    scanf("%d %d %d",&n,&m,&kk);
+    for(int i=0; i<n; i++)
+        for(int k=0; k<n; k++)
+            scanf("%d",&A[i+1][k+1]);
+    for(int i=0; i <m; i++){
+        scanf("%d %d %d",&a,&b,&c);
+        arr[a][b].age.push_back(c);
+        }
+
+
+    for(int i=0; i<kk ;i++) {//반복
+        spring();
+        summer();
+        fall();
+        winter();
+    }
+
+    for(int i=1; i<=n; i++) 
+        for(int k=1;k<=n;k++)
+            sum+=arr[i][k].age.size();//나무 수 세기
+
+    printf("%d",sum);//값 도출
+
+}

@@ -1,0 +1,107 @@
+#include <iostream>
+#include <string.h>
+#include <algorithm>
+using namespace std;
+
+char ch[210];
+char temp[210];
+int Csize;
+
+char print[1100][210];
+
+struct posi{
+int s,e;
+int bit=0;
+};
+
+posi arr[12];
+int arrsize=0;
+
+int find(int start) {
+    for(int i=start; i<Csize; i++) {
+        if(ch[i]=='(') {
+            i = find(i+1)+1;
+        }
+        if(ch[i]==')') {
+            arr[arrsize].s=start-1;
+            arr[arrsize].e=i;
+            arrsize++;
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+int main() {
+    freopen("input.txt","rt",stdin);
+
+    scanf("%s",ch);
+    Csize = strlen(ch);
+
+    
+    find(0);
+    
+
+    for (int i = 0; i < arrsize - 1; i++) {
+        for (int j = 0; j < arrsize - 1 - i; j++) {
+            if (arr[j].s < arr[j + 1].s){
+                int temp;
+                temp= arr[j].s;
+                arr[j].s=arr[j+1].s;
+                arr[j+1].s=temp;
+                temp=arr[j].e;
+                arr[j].e=arr[j+1].e;
+                arr[j+1].e=temp;
+            }  
+        }
+    }
+        
+    
+    int asdfsize=0;
+
+        
+    while(1) {
+        arr[0].bit++;
+        for(int i=0; i<arrsize; i++) {
+            if(arr[i].bit==2) {
+                arr[i].bit=0;
+                arr[i+1].bit++;
+            }
+        }
+        if(arr[arrsize].bit==1)
+            break;
+        strcpy(temp,ch);
+        for(int i=0; i<arrsize; i++) {
+            if(arr[i].bit==1) {
+                temp[arr[i].s]='a';
+                temp[arr[i].e]='a';
+            }
+            
+        }
+        strcpy(print[asdfsize],temp);  
+        asdfsize++;
+    }
+
+   
+    for (int i = 0; i < asdfsize- 1; i++) {
+        for (int j = 0; j < asdfsize - 1 - i; j++) {
+            if (strcmp (print[j] , print[j+1])>0){
+                strcpy(temp,print[j]);
+                strcpy(print[j],print[j+1]);
+                strcpy(print[j+1],temp);
+            }  
+        }
+    }
+        
+    for(int k=0; k<asdfsize; k++) {
+       for(int i=0; i<Csize; i++) {
+            if(print[k][i]!='a')
+                printf("%c",print[k][i]);
+        
+           }printf("\n");
+    }
+
+    return 0;
+}
+

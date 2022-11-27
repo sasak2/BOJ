@@ -1,0 +1,154 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+//12865 평범한 배낭
+int n,k;
+int w[101],v[101];// 무게배열 가치배열
+
+int arr[101][100001];
+int dy[100001];
+int dymany[100001];
+
+int pack(int size_) {
+    if(size_==0) return 0;
+    if(dy[size_]!=-1) {
+        return dy[size_];
+    }
+
+    int max=pack(size_-1);
+    int d=0;
+    int maxi,maxj;
+    int temp=0;
+    int maxd=111;
+    
+  // printf("size %d",size_);
+    //이거랑
+    
+    for(int j=0;j<n;j++) {
+        if(w[j]<=size_&&arr[j][size_-w[j]]!=1) {
+            temp=pack(size_-w[j])+v[j];
+            if(max<= temp) {
+                
+                d=dymany[size_-w[j]]+1;
+                if(!(max==temp&&d>maxd)){
+                max=temp;
+                maxi=size_-w[j];
+                maxj=j;
+                maxd= d;
+                    }
+            }
+        }
+    }
+    
+//   printf(" max %d\n",max);
+    //이거랑
+    
+    if(maxd!=111) {
+    for(int j=0; j<n; j++) {
+            arr[j][size_]=arr[j][maxi];
+    }
+       arr[maxj][size_]=1;
+        dy[size_]=max;
+        dymany[size_]=maxd;
+    } else {
+    dy[size_]=max;
+            for(int j=0; j<n; j++) {
+            arr[j][size_]=arr[j][size_-1];
+    }
+dymany[size_]=dymany[size_-1];
+        }
+
+    /*
+
+    //이 포문을 지우면
+    for(int j=0;j<n;j++) {
+      //  if(1==2)
+     if(arr[j][size_]==1)
+        printf("size%d maz%d j%d w%d v%d\n",size_,max,j,w[j],v[j]);
+   }
+// 프로그램이 터짐 ㅎㅎ
+    */
+    return max;
+}
+
+int main() {
+    freopen("input.txt","rt",stdin);
+    
+    scanf("%d %d",&n,&k);
+    for(int i=0; i<n; i++)
+        scanf("%d %d",&w[i],&v[i]);
+    
+    
+        for(int kk=0; kk<=100001;kk++) {
+            dy[kk]=-1;
+            dymany[kk]=0;
+            for(int i=0;i<101;i++)
+            arr[i][kk]=0;
+
+        }
+
+    for(int i=0; i<n; i++) {
+        for(int k=0; k<n-i-1; k++) {
+            if(w[k]>w[k+1]||(w[k]==w[k+1]&&v[k]>v[k+1])) {
+
+                int a,b;
+                a=w[k];
+                b=v[k];
+                w[k]= w[k+1];
+                v[k]=v[k+1];
+                w[k+1]=a;
+                v[k+1]=b;
+                
+            }
+        }
+    }
+
+    //printf("test\n");
+    
+    printf("%d\n",pack(k));
+
+    
+
+    return 0;
+}
+
+
+
+
+//-----------------------------------------------------------------------------
+
+
+
+#include<iostream>
+#include<algorithm>
+using namespace std;
+ 
+int dp[101][100001];
+int w[101];
+int v[101];
+int n, k;
+ 
+int main()
+{
+    cin >> n >> k;
+    for (int i = 1; i <= n; i++)
+    {
+        cin >> w[i] >> v[i];
+    }
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= k; j++)
+        {
+      
+            if (j >= w[i])
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
+     
+            else
+                dp[i][j] = dp[i - 1][j];
+        }
+    }
+    cout << dp[n][k];
+    return 0;
+}

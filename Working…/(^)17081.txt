@@ -1,0 +1,98 @@
+#include <iostream>
+#include <cstring>
+//17081 RPG Extream
+
+struct monster{
+	int r,c; // r번째줄 c번째 칸
+	char name[12]; 
+	int atk;
+	int def;
+	int hp;
+	int exp;
+	int maxhp;
+};
+
+struct item {
+	int r,c; // r번째줄 c번째 칸
+	char type; // W,A,O;
+	int w; // 공격력
+	int a; // 방어력
+	char o[4];
+
+};
+
+struct map {
+	char type;	
+	monster monster;
+	item item;
+};
+
+int n,m; // n 세로 m 가로
+map map[102][102];
+int k; // 몬스터의 수
+int l; // 아이템의 수
+
+struct player {
+	int r,c; // r번째줄 c번째 칸
+	int atk;
+	int def;
+	int hp;
+	int exp;
+	int lv;
+	int maxhp;
+}
+
+monster player;
+
+
+char order[5002];
+
+int main(void) {
+
+	freopen("input.txt","rt",stdin);
+
+	scanf("%d %d",&n,&m);
+
+	for(int i=0; i<n; i++) {
+		for(int k=0; k<m; k++) {
+			scanf("%c",&map[i][k].type);
+
+			if(map[i][k].type=='@') {
+				player.r=i;
+				player.c=k;
+				player.hp=20;
+				
+				체력, 공격력, 방어력 : 정수로 표시된다. 초기 값은 체력 20, 공격력 2, 방어력 2이다.
+경험치 : 처음엔 레벨 1이며, 레벨 N에서 N+1이 되기 위한 필요 경험치는 5×N이다.
+레벨이 오를 경우, 최대 HP가 5, 공격력과 방어력이 2씩 상승한 뒤 HP가 모두 회복된다.
+경험치를 얻어 레벨이 오르게 되면, 남는 경험치는 버려진다. 예를 들어, 다음 레벨까지 필요한 경험치가 3인 상태에서 5의 경험치를 얻는다면, 레벨이 오른 다음, 남은 2의 경험치는 버려지고 0의 경험치를 갖고 있는 상태가 된다.
+				
+			}
+			
+		}
+		scanf("\n");
+	}
+
+	scanf("%s",order);
+
+	scanf("%d",&k);
+	
+	for(int i=0; i<k; i++) {
+		int r,c,atk,def,hp,exp;
+		char name[12];
+		scanf("%d %d %s %d %d %d %d",&r,&c,name,&atk,&def,&hp,&exp);
+		map[r][c].monster.r=r;
+		map[r][c].monster.c=c;
+		strcpy(map[r][c].monster.name,name);
+		map[r][c].monster.atk=atk;
+		map[r][c].monster.def=def;
+		map[r][c].monster.hp=hp;
+		
+		map[r][c].monster.exp=exp;
+	}
+
+	
+
+	
+	return 0;
+}

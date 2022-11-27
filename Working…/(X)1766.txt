@@ -1,0 +1,95 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <queue>
+
+//1766 문제집
+using namespace std;
+
+int n,m;
+int a,b;
+vector<int> firstlist[32010];
+
+struct cmp {
+    bool operator()(int a,int b) {
+		if(find(firstlist[a].begin(), firstlist[a].end(), b) == firstlist[a].end()) {
+			//그니까 a를 풀기 위해서 b를 먼저 풀어야 하지 않으면
+			if(find(firstlist[b].begin(), firstlist[b].end(), a) == firstlist[b].end()) {
+				return a>b;
+			}
+			else {
+				return 0;
+			}
+		} else {
+			//a를 풀기 위해서 b를 먼저 풀어야 하면
+			return 1;
+			
+		}
+	}
+};
+
+priority_queue <int, vector<int>, cmp> pq;
+
+void firstsolvelowlevelpush(int a, int b) {
+	//a가 대상이고 b가 그 넣는 벡터 인덱스 값임 이히히꺄르륵꽤뢔뢩뀨롸뢍
+
+	if(firstlist[b].empty())	{
+		if(a==b)
+			return;
+		firstlist[a].push_back(b);
+		return;
+	}
+	else {
+		int n=firstlist[b].size();
+		for(int i=0; i<n; i++) {
+			firstsolvelowlevelpush(a,firstlist[b][i]);
+			if(a!=b)
+			firstlist[a].push_back(firstlist[b][i]);
+		}
+		sort(firstlist[a].begin(), firstlist[a].end());
+		firstlist[a].erase(unique(firstlist[a].begin(),firstlist[a].end()), firstlist[a].end());
+	}
+	
+	
+}
+
+
+int main() {
+	freopen("input.txt", "rt", stdin);
+
+	scanf("%d %d",&n,&m);
+	
+	for(int i=0; i<m; i++) {
+		scanf("%d %d",&a,&b);
+		firstlist[b].push_back(a);
+	}
+
+	for(int i=0; i<n; i++) {
+		firstsolvelowlevelpush(i+1, i+1);
+		/*
+		sort(firstlist[i+1].begin(), firstlist[i+1].end());
+		firstlist[i+1].erase(unique(firstlist[i+1].begin(),firstlist[i+1].end()), firstlist[i+1].end());
+*/
+	}
+
+	for(int i=0; i<n; i++) {
+		pq.push(i+1);
+	}
+	
+	for(int i=0; i<n; i++) {
+		printf("%d ",pq.top());
+		pq.pop();
+	}
+
+	
+	printf("\n\n\n");
+	for(int i=0; i<n; i++) {
+	printf("\n%d : ",i+1);
+		for(int k=0; k<firstlist[i+1].size();k++) 
+			printf("%d ",firstlist[i+1][k]);
+		}
+
+	
+
+	return 0;
+}
