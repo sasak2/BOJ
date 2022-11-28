@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<queue>
 #include<algorithm>
 
 using namespace std;
@@ -7,18 +8,31 @@ int main() {
 	freopen("input.txt","rt",stdin);
 
 	int n;
-	int a;
-	vector<int> v;
-	
-	scanf("%d",&n);
-	
-	for(int i=0; i<n;i++) {
-		scanf("%d",&a);
-		v.push_back(a);
+	char ch[30];
+
+	scanf
+	while(1) {
+		scanf("%d %d %d",&a,&b,&c);
+		if(a+b+c==0)
+			break;
+		if(a>c) {
+	  	temp=c;
+	  	c=a;
+	  	a=temp;
+  	}
+	  if(b>c) {
+		  temp=c;
+	  	c=b;
+	  	b=temp;
+	  }
+		if(c*c==(a*a)+(b*b))
+			printf("right\n");
+		else
+			printf("wrong\n");
+		
 	}
-	sort(v.begin(),v.end());
-	for(int i=0; i<n;i++)
-		printf("%d\n",v[i]);
-	//히히 신난다
+
+	
+	
   return 0;
 }
