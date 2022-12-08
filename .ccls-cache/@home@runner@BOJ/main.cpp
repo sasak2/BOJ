@@ -1,56 +1,61 @@
 #include<iostream>
 #include<vector>
+#include<stack>
 #include<queue>
+#include<deque>
 #include<algorithm>
 #include<cstring>
 #include<cmath>
 
 using namespace std;
 
-//1018 체스판 다시 칠하기
+//15657 N과M 8
 
 int n,m;
-char ch[52][52];
+int arr[10];
+int num[10];
 
-int fill(int x, int y, char wb) {
-
-	int d=0;
-	int cnt=0;;
-	for(int i=x; i<x+8; i++) {
-		for(int k=y; k<y+8; k++) {
-			if((ch[i][k]==wb)==d)
-				cnt++;
-			d++;
-			d%=2;
-			
-			
-		}
+void print(void) {
+	for(int i=0; i<m; i++) {
+		printf("%d ",num[arr[i+1]-1]);
 	}
+	printf("\n");
+}
 
-	return cnt;
+void f(int depth) {
+	if(depth==m+1)  {
+		print();
+		return;
+		}
+	
+
+	for(int i=arr[depth-1]; i<=n; i++) {
+	
+	
+		arr[depth]=i;
+		f(depth+1);
+
+		
+	}
+ 
+	
+	
 }
 
 int main() {
 	freopen("input.txt","rt",stdin);
 
 	scanf("%d %d",&n,&m);
-	int min_=999;
 
-	for(int i=0; i<n; i++) 
-		scanf("%s",ch[i]);
+	for(int i=0; i<n; i++)
+		scanf("%d",&num[i]);
 
-	for(int i=0; i<=n-8; i++) {
-		for(int k=0; k<=m-8; k++) {
-			int b=fill(i,k,'B');
-			int a=fill(i,k,'W');
-			if(min_>a)
-				min_=a;
-			if(min_>b)
-				min_=b;
-		}
-	}
+	sort(num,num+n);
+	
+	arr[0]=1;
+	f(1);
 
-	printf("%d",min_);
+	
 
 	return 0;
 }
