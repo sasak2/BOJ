@@ -9,53 +9,56 @@
 
 using namespace std;
 
-//15657 N과M 8
+//11650 좌표 정렬
 
-int n,m;
-int arr[10];
-int num[10];
+int n;
 
-void print(void) {
-	for(int i=0; i<m; i++) {
-		printf("%d ",num[arr[i+1]-1]);
+
+struct xy{
+int x,y;
+	bool operator() (xy a,xy b) {
+			if(a.x>b.x)
+			return true;
+		if(a.x<b.x)
+			return false;
+		if(a.y>b.y)
+			return true;
+		if(a.y<b.y)
+			return false;
 	}
-	printf("\n");
-}
+} a[100001],temp;
 
-void f(int depth) {
-	if(depth==m+1)  {
-		print();
-		return;
-		}
-	
 
-	for(int i=arr[depth-1]; i<=n; i++) {
-	
-	
-		arr[depth]=i;
-		f(depth+1);
+priority_queue<xy> pq;
 
-		
-	}
- 
+
+int cmp(xy a, xy b) {
+	if(a.x>b.x)
+		return 1;
+	if(a.x<b.x)
+		return 0;
+
 	
-	
-}
+	if(a.y>b.y)
+		return 1;
+	if(a.y<b.y)
+		return 0;
+};
+
 
 int main() {
 	freopen("input.txt","rt",stdin);
 
-	scanf("%d %d",&n,&m);
+	scanf("%d",&n);
 
-	for(int i=0; i<n; i++)
-		scanf("%d",&num[i]);
+	for(int i=0; i<n; i++) {
+		scanf("%d %d",&a[i].x,&a[i].y);
+		pq.push(a[i]);
+	}
 
-	sort(num,num+n);
-	
-	arr[0]=1;
-	f(1);
 
-	
-
+	for(int i=0; i<n; i++) {
+		printf("%d %d\n",pq.top().x,pq.top().y);
+	}
 	return 0;
 }

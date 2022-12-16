@@ -1,0 +1,33 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+#include<queue>
+#include<deque>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+
+using namespace std;
+
+//4999 아!
+
+int n;
+
+
+
+int main() {
+	freopen("input.txt","rt",stdin);
+
+	char str1[1001], str2[1001];
+
+  scanf("%s", str1);
+  scanf("%s", str2);
+
+  if (strlen(str1) < strlen(str2))
+    printf("no");
+  else
+    printf("go");
+
+	
+	return 0;
+}

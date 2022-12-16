@@ -9,36 +9,33 @@
 
 using namespace std;
 
-//15657 N과M 8
+//15666 n과m 12
 
 int n,m;
-int arr[10];
-int num[10];
+int a;
+vector<int> v;
 
-void print(void) {
-	for(int i=0; i<m; i++) {
-		printf("%d ",num[arr[i+1]-1]);
-	}
+int arr[10]={0,};
+
+void print() {
+	for(int i=0; i<m; i++)
+		printf("%d ",v[arr[i+1]]);
 	printf("\n");
 }
 
 void f(int depth) {
-	if(depth==m+1)  {
+	if(depth==m+1) {
 		print();
 		return;
-		}
-	
+	}
 
-	for(int i=arr[depth-1]; i<=n; i++) {
-	
-	
+	for(int i=arr[depth-1]; i<n; i++) {
 		arr[depth]=i;
 		f(depth+1);
-
-		
 	}
- 
+		
 	
+
 	
 }
 
@@ -47,15 +44,16 @@ int main() {
 
 	scanf("%d %d",&n,&m);
 
-	for(int i=0; i<n; i++)
-		scanf("%d",&num[i]);
+	for(int i=0; i<n; i++) {
+		scanf("%d",&a);
+		v.push_back(a);
+	}
 
-	sort(num,num+n);
-	
-	arr[0]=1;
+	sort(v.begin(), v.end());
+	v.erase(unique(v.begin(),v.end()),v.end());
+	n=v.size();
+
 	f(1);
-
 	
-
 	return 0;
 }
