@@ -9,56 +9,33 @@
 
 using namespace std;
 
-//11650 좌표 정렬
+//11053 가장 긴 증가하는 부분 수열
 
 int n;
-
-
-struct xy{
-int x,y;
-	bool operator() (xy a,xy b) {
-			if(a.x>b.x)
-			return true;
-		if(a.x<b.x)
-			return false;
-		if(a.y>b.y)
-			return true;
-		if(a.y<b.y)
-			return false;
-	}
-} a[100001],temp;
-
-
-priority_queue<xy> pq;
-
-
-int cmp(xy a, xy b) {
-	if(a.x>b.x)
-		return 1;
-	if(a.x<b.x)
-		return 0;
-
-	
-	if(a.y>b.y)
-		return 1;
-	if(a.y<b.y)
-		return 0;
-};
-
+int arr[1004];
+int big[1004]={0,};
 
 int main() {
 	freopen("input.txt","rt",stdin);
 
 	scanf("%d",&n);
+	for(int i=0; i<n; i++) 
+		scanf("%d",&arr[i]);
 
 	for(int i=0; i<n; i++) {
-		scanf("%d %d",&a[i].x,&a[i].y);
-		pq.push(a[i]);
+		int d=0;
+		for(int k=0; k<i; k++) {
+			if(arr[k]<arr[i]&&big[k]>=d)
+				d=big[k];
+		}
+		big[i]=d+1;
 	}
 
-
+	int wow=1;
 	for(int i=0; i<n; i++) {
-		printf("%d %d\n",pq.top().x,pq.top().y);
+		if(big[i]>wow)
+			wow=big[i];
 	}
+	printf("%d",wow);
 	return 0;
 }
