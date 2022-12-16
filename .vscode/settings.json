@@ -1,0 +1,6 @@
+{
+    "terminal.integrated.defaultLocation": "editor",
+    "files.associations": {
+        "iostream": "cpp"
+    }
+}
