@@ -9,33 +9,53 @@
 
 using namespace std;
 
-//11053 가장 긴 증가하는 부분 수열
+//15657 N과M 8
 
-int n;
-int arr[1004];
-int big[1004]={0,};
+int n,m;
+int arr[10];
+int num[10];
+
+void print(void) {
+	for(int i=0; i<m; i++) {
+		printf("%d ",num[arr[i+1]-1]);
+	}
+	printf("\n");
+}
+
+void f(int depth) {
+	if(depth==m+1)  {
+		print();
+		return;
+		}
+	
+
+	for(int i=arr[depth-1]; i<=n; i++) {
+	
+	
+		arr[depth]=i;
+		f(depth+1);
+
+		
+	}
+ 
+	
+	
+}
 
 int main() {
 	freopen("input.txt","rt",stdin);
 
-	scanf("%d",&n);
-	for(int i=0; i<n; i++) 
-		scanf("%d",&arr[i]);
+	scanf("%d %d",&n,&m);
 
-	for(int i=0; i<n; i++) {
-		int d=0;
-		for(int k=0; k<i; k++) {
-			if(arr[k]<arr[i]&&big[k]>=d)
-				d=big[k];
-		}
-		big[i]=d+1;
-	}
+	for(int i=0; i<n; i++)
+		scanf("%d",&num[i]);
 
-	int wow=1;
-	for(int i=0; i<n; i++) {
-		if(big[i]>wow)
-			wow=big[i];
-	}
-	printf("%d",wow);
+	sort(num,num+n);
+	
+	arr[0]=1;
+	f(1);
+
+	
+
 	return 0;
 }
