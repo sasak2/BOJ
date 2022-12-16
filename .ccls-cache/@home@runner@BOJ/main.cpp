@@ -9,27 +9,37 @@
 
 using namespace std;
 
-//4619 루트
+//9622 Cabin Baggage
 
-int b,n;
+int t;
+float a,b,c,d;
 
 int main() {
 	freopen("input.txt","rt",stdin);
 
-	while(1) {
-		scanf("%d %d",&b,&n);
-		if(n==0)
-			break;
+	scanf("%d",&t);
+
+	int sum = 0;
+
+	while(t--) {
+		scanf("%f %f %f %f",&a,&b,&c,&d);
+
+		//56 45 25 125 7
+		if(d>7) {
+			printf("0\n");
+			continue;
+		}
 		
-		int sum = pow(double(b),1.0/n);
-		int mindiff = sum;
-		if(abs(pow(mindiff,n)-b) > abs(pow(sum+1,n)-b))
-			mindiff=sum+1;
-		if(abs(pow(mindiff,n)-b) > abs(pow(sum-1,n)-b))
-			mindiff=sum-1;
-		printf("%d\n",mindiff);
+		if((a+b+c>125)&&(a>56||b>45||c>25)) {
+			printf("0\n");
+			continue;
+		}
+		
+		printf("1\n");
+		sum++;
 	}
-	
+
+	printf("%d",sum);
 
 	return 0;
 }
