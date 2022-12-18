@@ -35,6 +35,6 @@ int main() {
 			m=arr[i]+arr[n-i-1];
 	}
 
-	printf("%lld",m);
+	printf("%d",m);
 	return 0;
 }
