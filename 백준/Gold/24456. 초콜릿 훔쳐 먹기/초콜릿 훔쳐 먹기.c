@@ -1,0 +1,2 @@
+#include<math.h>
+int n,m,K,D,C,i;int main(){scanf("%d %d %d",&n,&m,&K);D=abs(n-m);C=n*m;for(i=C;i>0;i--){int d=1;for(int k=1;k<=i;k++){if(i%k<1){int N=abs((i/k)-k);if(N<=D+K){d=0;break;}}}if(d==1)break;}printf("%d",C-1-i);return 0;}
