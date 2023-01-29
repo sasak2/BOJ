@@ -1,0 +1,1 @@
+int n,arr[101][101];long long int dp[111][111];int main(){scanf("%d",&n);for(int i=0;i<n;i++){for(int k=0;k<n;k++){scanf("%d",&arr[i+1][k+1]);dp[i+1][k+1]=0;}}dp[1][1]=1;for(int i=1;i<=n;i++){for(int k=1;k<=n;k++){if(i==n&&k==n)break;dp[i+arr[i][k]][k]+=dp[i][k];dp[i][k+arr[i][k]]+=dp[i][k];}}printf("%lld",dp[n][n]);return 0;}
